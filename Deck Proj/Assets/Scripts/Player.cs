@@ -18,18 +18,19 @@ public class Player : MonoBehaviour
     public bool grounded;
     public bool jumped;
     public float cTime;
-    public Transform aim;
-    float angleDeg;
-    float angleRad;
-    Vector3 mousePos;
-    Camera cam;
     bool a;
+    bool left;
+    bool right;
+    [Header("Attacks")]
+    public GameObject hitBox;
+    public float hitDur;
+    bool attacked;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Time.timeScale = 1;
         jumpRay = new Ray2D(transform.position - (Vector3.down/2), Vector2.down);
-        cam = Camera.main;
+        right = true;
     }
 
     // Update is called once per frame
@@ -37,11 +38,8 @@ public class Player : MonoBehaviour
     {
         tempmove = rb.linearVelocity;
         tempmove.x = inputX * speed;
-        rb.linearVelocityX = (tempmove.x);
+        rb.linearVelocityX = tempmove.x;
         jumpRay.origin = transform.position + ((Vector3.down / 2) + (Vector3.down / 10));
-        mousePos = cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        angleRad = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x);
-        angleDeg = (180 / Mathf.PI) * angleRad - 0;
         if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDis) && !grounded && !a)
         {
             grounded = true;
@@ -75,6 +73,16 @@ public class Player : MonoBehaviour
         Vector2 InputAxis = context.ReadValue<Vector2>();
         inputX = InputAxis.x;
         inputY = InputAxis.y;
+        if (inputX < 0)
+        {
+            left = true;
+            right = false;
+        }
+        else if (inputX > 0)
+        {
+            right = true;
+            left = false;
+        }
     }
     public void Jump(InputAction.CallbackContext context)
     {
@@ -89,11 +97,44 @@ public class Player : MonoBehaviour
             }
         }
     }
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (left && !attacked)
+        {
+            GameObject a = Instantiate(hitBox, (transform.position + Vector3.left), transform.rotation, transform);
+            StartCoroutine("AtkCool");
+            Destroy(a, hitDur);
+        }
+        else if (right && !attacked) 
+        {
+            GameObject a =  Instantiate(hitBox, (transform.position - Vector3.left), transform.rotation, transform);
+            StartCoroutine("AtkCool");
+            Destroy(a, hitDur);
+        }
+    }
     IEnumerator JumpFix()
     {
         a = true;
         yield return new WaitForSeconds(0.5f);
         a = false;
+    }
+    IEnumerator coyote()
+    {
+        if (!jumped)
+        {
+            yield return new WaitForSeconds(cTime);
+            grounded = false;
+        }
+        else
+        {
+            grounded = false;
+        }
+    }
+    IEnumerator AtkCool()
+    {
+        attacked = true;
+        yield return new WaitForSeconds(hitDur);
+        attacked = false;
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
