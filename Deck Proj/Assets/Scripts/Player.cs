@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     public GameObject hitBox;
     public float hitDur;
     bool attacked;
+    public float damage;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
