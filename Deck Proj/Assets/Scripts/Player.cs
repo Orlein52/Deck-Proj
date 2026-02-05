@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     bool a;
     bool left;
     bool right;
+    bool p;
+    bool d;
     RaycastHit2D upPlatRay;
     RaycastHit2D downPlatRay;
     [Header("Attacks")]
@@ -73,10 +75,23 @@ public class Player : MonoBehaviour
                 rb.gravityScale = 2;
             }
         }
+        upPlatRay = Physics2D.Raycast(transform.position + (Vector3.up / 2), Vector2.up);
         downPlatRay = Physics2D.Raycast(transform.position - (Vector3.up / 2), Vector2.down);
-        if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform")
+        if (upPlatRay.collider)
         {
-            Physics2D.IgnoreCollision(col, downPlatRay.collider, false);
+            if (!Physics2D.GetIgnoreCollision(col, upPlatRay.collider) && upPlatRay.collider.gameObject.tag == "Platform")
+            {
+                StartCoroutine("Down");
+                Physics2D.IgnoreCollision(col, upPlatRay.collider, true);
+            }
+        }
+        if (downPlatRay.collider)
+        {
+            if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform" && !d && inputY >= 0)
+            {
+                StartCoroutine("Plat");
+                Physics2D.IgnoreCollision(col, downPlatRay.collider, false);
+            }
         }
     }
     public void Move(InputAction.CallbackContext context)
@@ -147,6 +162,18 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(hitDur);
         attacked = false;
     }
+    IEnumerator Plat()
+    {
+        p = true;
+        yield return new WaitForSeconds(0.1f);
+        p = false;
+    }
+    IEnumerator Down()
+    {
+        d = true;
+        yield return new WaitForSeconds(0.1f);
+        d = false;
+    }
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "KillBox")
@@ -160,17 +187,15 @@ public class Player : MonoBehaviour
         {
             if (other.gameObject.tag == "Platform")
             {
-                if (inputY < 0)
+                if (inputY < 0 && !p)
                 {
+                    StartCoroutine("Down");
                     Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
                 }
-                else if (rb.linearVelocityY > 0)
+                else if (rb.linearVelocityY > 0 && !p)
                 {
+                    StartCoroutine("Down");
                     Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
-                }
-                else
-                {
-                    Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), false);
                 }
             }
         }
