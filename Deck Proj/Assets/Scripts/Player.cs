@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public float inputX;
     public float inputY;
     Ray2D jumpRay;
+    BoxCollider2D col;
+    [Header("Jump Stats")]
     public float jumpDis;
     public float jumpForce;
     public bool grounded;
@@ -21,6 +23,8 @@ public class Player : MonoBehaviour
     bool a;
     bool left;
     bool right;
+    RaycastHit2D upPlatRay;
+    RaycastHit2D downPlatRay;
     [Header("Attacks")]
     public GameObject hitBox;
     public float hitDur;
@@ -32,6 +36,7 @@ public class Player : MonoBehaviour
         Time.timeScale = 1;
         jumpRay = new Ray2D(transform.position - (Vector3.down/2), Vector2.down);
         right = true;
+        col = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -67,6 +72,11 @@ public class Player : MonoBehaviour
             {
                 rb.gravityScale = 2;
             }
+        }
+        downPlatRay = Physics2D.Raycast(transform.position - (Vector3.up / 2), Vector2.down);
+        if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform")
+        {
+            Physics2D.IgnoreCollision(col, downPlatRay.collider, false);
         }
     }
     public void Move(InputAction.CallbackContext context)
@@ -142,6 +152,27 @@ public class Player : MonoBehaviour
         if (other.tag == "KillBox")
         {
             SceneManager.LoadScene(0);
+        }
+    }
+    public void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.GetComponent<Collider2D>())
+        {
+            if (other.gameObject.tag == "Platform")
+            {
+                if (inputY < 0)
+                {
+                    Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
+                }
+                else if (rb.linearVelocityY > 0)
+                {
+                    Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
+                }
+                else
+                {
+                    Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), false);
+                }
+            }
         }
     }
 }
