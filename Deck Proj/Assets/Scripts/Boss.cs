@@ -41,7 +41,7 @@ public class Boss : MonoBehaviour
                 {
                     rb.linearVelocityX = -speed;
                 }
-                else if (player.transform.position.x > transform.position.x && !cool && dis - 1.5f > range)
+                else if (player.transform.position.x > transform.position.x && !cool && dis + 1.5f > range)
                 {
                     rb.linearVelocityX = speed;
                 }
@@ -91,7 +91,7 @@ public class Boss : MonoBehaviour
     IEnumerator Charging()
     {
         c = true;
-        float a = Random.Range(1, 3);
+        float a = Random.Range(1, 5);
         yield return new WaitForSeconds(a);
         charging = true;
         Charge();

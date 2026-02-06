@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
         }
         if (downPlatRay.collider)
         {
-            if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform" && !d)
+            if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform" && !d && inputY < 0)
             {
                 //StartCoroutine("Plat");
                 Physics2D.IgnoreCollision(col, downPlatRay.collider, false);
