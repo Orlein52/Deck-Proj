@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
                 {
                     rb.linearVelocityX = -speed;
                 }
-                else if (player.transform.position.x  > transform.position.x && !cool && dis - 1.5f > range)
+                else if (player.transform.position.x  > transform.position.x && !cool && dis + 1.5f > range)
                 {
                     rb.linearVelocityX = speed;
                 }
