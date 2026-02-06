@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public float inputY;
     Ray2D jumpRay;
     BoxCollider2D col;
+    public float health;
+    public float maxHealth;
     [Header("Jump Stats")]
     public float jumpDis;
     public float jumpForce;
@@ -75,23 +77,26 @@ public class Player : MonoBehaviour
                 rb.gravityScale = 2;
             }
         }
-        upPlatRay = Physics2D.Raycast(transform.position + (Vector3.up / 2), Vector2.up);
+        upPlatRay = Physics2D.Raycast(transform.position + (Vector3.up / 1.9999f), Vector2.up);
         downPlatRay = Physics2D.Raycast(transform.position - (Vector3.up / 2), Vector2.down);
         if (upPlatRay.collider)
         {
-            if (!Physics2D.GetIgnoreCollision(col, upPlatRay.collider) && upPlatRay.collider.gameObject.tag == "Platform")
+            if (upPlatRay.collider.gameObject.tag == "Platform")
             {
-                StartCoroutine("Down");
                 Physics2D.IgnoreCollision(col, upPlatRay.collider, true);
             }
         }
         if (downPlatRay.collider)
         {
-            if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform" && !d && inputY >= 0)
+            if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform" && !d)
             {
-                StartCoroutine("Plat");
+                //StartCoroutine("Plat");
                 Physics2D.IgnoreCollision(col, downPlatRay.collider, false);
             }
+        }
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(1);
         }
     }
     public void Move(InputAction.CallbackContext context)
@@ -178,7 +183,15 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "KillBox")
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
+        }
+        if (other.tag == "Enem_Ranged_Atki")
+        {
+            health--;
+        }
+        if (other.tag == "Enem_Melee_Atk")
+        {
+            health--;
         }
     }
     public void OnCollisionStay2D(Collision2D other)
@@ -188,11 +201,6 @@ public class Player : MonoBehaviour
             if (other.gameObject.tag == "Platform")
             {
                 if (inputY < 0 && !p)
-                {
-                    StartCoroutine("Down");
-                    Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
-                }
-                else if (rb.linearVelocityY > 0 && !p)
                 {
                     StartCoroutine("Down");
                     Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
