@@ -205,11 +205,6 @@ public class Player : MonoBehaviour
                     StartCoroutine("Down");
                     Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
                 }
-                else if (rb.linearVelocityY > 0 && !p)
-                {
-                    StartCoroutine("Down");
-                    Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
-                }
             }
         }
     }
