@@ -180,6 +180,8 @@ MonoBehaviour:
   speed: 5
   inputX: 0
   inputY: 0
+  health: 0
+  maxHealth: 0
   jumpDis: 0
   jumpForce: 10
   grounded: 0

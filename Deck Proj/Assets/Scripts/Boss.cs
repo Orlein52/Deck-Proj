@@ -20,6 +20,7 @@ public class Boss : MonoBehaviour
     public GameObject chargeHit;
     public int chargeDmg;
     bool c;
+    GameObject a;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -61,6 +62,11 @@ public class Boss : MonoBehaviour
                 }
             }
         }
+        if (5 < rb.linearVelocityX !& rb.linearVelocityX < 5)
+        {
+            charging = false;
+            Destroy(a);
+        }
         if (health <= 0)
         {
             Destroy(gameObject);
@@ -70,15 +76,13 @@ public class Boss : MonoBehaviour
     {
         if (player.transform.position.x < transform.position.x)
         {
-            GameObject a = Instantiate(chargeHit, transform.position - Vector3.right / 1.9f, transform.rotation, transform);
+            a = Instantiate(chargeHit, transform.position - Vector3.right / 1.9f, transform.rotation, transform);
             rb.AddForceX(-chargeForce, ForceMode2D.Impulse);
-            Destroy(a, 1);
         }
         else if (player.transform.position.x > transform.position.x)
         {
-            GameObject a = Instantiate(chargeHit, transform.position + Vector3.right / 1.9f, transform.rotation, transform);
+            a = Instantiate(chargeHit, transform.position + Vector3.right / 1.9f, transform.rotation, transform);
             rb.AddForceX(chargeForce, ForceMode2D.Impulse);
-            Destroy(a, 1);
         }
         //charging = false;
     }
