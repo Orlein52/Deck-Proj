@@ -62,7 +62,7 @@ public class Boss : MonoBehaviour
                 }
             }
         }
-        if (5 < rb.linearVelocityX !& rb.linearVelocityX < 5)
+        if (-5 < rb.linearVelocityX && rb.linearVelocityX < 5)
         {
             charging = false;
             Destroy(a);
