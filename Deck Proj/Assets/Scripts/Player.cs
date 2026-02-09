@@ -25,6 +25,10 @@ public class Player : MonoBehaviour
     bool a;
     bool left;
     bool right;
+    bool p;
+    bool d;
+    RaycastHit2D upPlatRay;
+    RaycastHit2D downPlatRay;
     [Header("Attacks")]
     public GameObject hitBox;
     public float hitDur;
@@ -71,6 +75,24 @@ public class Player : MonoBehaviour
             else
             {
                 rb.gravityScale = 2;
+            }
+        }
+        upPlatRay = Physics2D.Raycast(transform.position + (Vector3.up / 1.9999f), Vector2.up);
+        downPlatRay = Physics2D.Raycast(transform.position - (Vector3.up / 1.9999f), Vector2.down);
+        if (downPlatRay.collider)
+        {
+            if (inputY < 0 && downPlatRay.collider.gameObject.tag == "Platform")
+            {
+                PlatformEffector2D plat = downPlatRay.collider.GetComponent<PlatformEffector2D>();
+                plat.rotationalOffset = 180;
+            }
+        }
+        if (upPlatRay.collider)
+        {
+            if(upPlatRay.collider.gameObject.tag == "Platform")
+            {
+                PlatformEffector2D plat = upPlatRay.collider.GetComponent<PlatformEffector2D>();
+                plat.rotationalOffset = 0;
             }
         }
         if (health <= 0)
@@ -146,6 +168,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(hitDur);
         attacked = false;
     }
+
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "KillBox")
