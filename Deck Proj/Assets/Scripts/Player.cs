@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public float health;
     public float maxHealth;
     [Header("Jump Stats")]
-    public float jumpDis;
+    public float jumpRayDis;
     public float jumpForce;
     public bool grounded;
     public bool jumped;
@@ -50,15 +50,15 @@ public class Player : MonoBehaviour
         tempmove.x = inputX * speed;
         rb.linearVelocityX = tempmove.x;
         jumpRay.origin = transform.position + ((Vector3.down / 2) + (Vector3.down / 10));
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDis) && !grounded && !a)
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpRayDis) && !grounded && !a)
         {
             grounded = true;
         }
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDis))
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpRayDis))
         {
             jumped = false;
         }
-        if (!Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDis) && grounded)
+        if (!Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpRayDis) && grounded)
         {
             StartCoroutine("coyote");
         }
@@ -85,6 +85,11 @@ public class Player : MonoBehaviour
             {
                 PlatformEffector2D plat = downPlatRay.collider.GetComponent<PlatformEffector2D>();
                 plat.rotationalOffset = 180;
+            }
+            else if (inputY >= 0 && downPlatRay.collider.gameObject.tag == "Platform")
+            {
+                PlatformEffector2D plat = downPlatRay.collider.GetComponent<PlatformEffector2D>();
+                plat.rotationalOffset = 0;
             }
         }
         if (upPlatRay.collider)
