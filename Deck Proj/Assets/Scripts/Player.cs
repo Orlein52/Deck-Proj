@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
         }
         if (downPlatRay.collider)
         {
-            if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && downPlatRay.collider.gameObject.tag == "Platform" && !d && inputY < 0)
+            if (Physics2D.GetIgnoreCollision(col, downPlatRay.collider) && !d && inputY >= 0)
             {
                 //StartCoroutine("Plat");
                 Physics2D.IgnoreCollision(col, downPlatRay.collider, false);
@@ -202,7 +202,7 @@ public class Player : MonoBehaviour
             {
                 if (inputY < 0 && !p)
                 {
-                    StartCoroutine("Down");
+                    //StartCoroutine("Down");
                     Physics2D.IgnoreCollision(col, other.gameObject.GetComponent<Collider2D>(), true);
                 }
             }
