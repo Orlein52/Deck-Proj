@@ -1051,14 +1051,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3237861266816116652, guid: f6bc6416a8ecfd248a8fbe21d3029ae6, type: 3}
-      propertyPath: dmg
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237861266816116652, guid: f6bc6416a8ecfd248a8fbe21d3029ae6, type: 3}
-      propertyPath: chargeDmg
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5942293946947449544, guid: f6bc6416a8ecfd248a8fbe21d3029ae6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.1688523
@@ -1786,16 +1778,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 805145145864567557, guid: 5729ee245ca100743845308cc27ed941, type: 3}
-      propertyPath: cool
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 805145145864567557, guid: 5729ee245ca100743845308cc27ed941, type: 3}
       propertyPath: health
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 805145145864567557, guid: 5729ee245ca100743845308cc27ed941, type: 3}
-      propertyPath: projLife
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 805145145864567557, guid: 5729ee245ca100743845308cc27ed941, type: 3}
       propertyPath: jumpForce
@@ -1804,10 +1788,6 @@ PrefabInstance:
     - target: {fileID: 805145145864567557, guid: 5729ee245ca100743845308cc27ed941, type: 3}
       propertyPath: maxHealth
       value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 805145145864567557, guid: 5729ee245ca100743845308cc27ed941, type: 3}
-      propertyPath: projSpeed
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3833283768196191845, guid: 5729ee245ca100743845308cc27ed941, type: 3}
       propertyPath: m_LocalPosition.x

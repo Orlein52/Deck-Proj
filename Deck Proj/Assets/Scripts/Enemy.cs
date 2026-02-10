@@ -29,7 +29,6 @@ public class Enemy : MonoBehaviour
     RaycastHit2D meleeRay2;
     bool cool;
     public float atkSpeed;
-    public float dmg;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");

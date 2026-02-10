@@ -181,9 +181,7 @@ MonoBehaviour:
   speed: 1
   health: 1
   maxHealth: 1
-  meleeAtk: {fileID: 643408677948521276, guid: 3a1e76509434dd8488e98d4016964139, type: 3}
+  meleeAtk: {fileID: 643408677948521276, guid: 20160295dca95df42aab3116e8eb8e8f, type: 3}
   chargeForce: 100
-  chargeHitR: {fileID: 7153345850059306303, guid: 51eadd63e79c9b842b59fbd0be0ccdc5, type: 3}
-  chargeHitL: {fileID: 7153345850059306303, guid: 411fc32f4ed701a44994e6c409ada51d, type: 3}
+  chargeHit: {fileID: 7153345850059306303, guid: 51eadd63e79c9b842b59fbd0be0ccdc5, type: 3}
   chargeDmg: 0
-  dmg: 0

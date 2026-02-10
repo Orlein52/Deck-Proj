@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6426449648317936281, guid: 86567dd2cd95830489e33e7cb7ef8e40, type: 3}
       propertyPath: m_TagString
-      value: Boss_Melee
+      value: Enem_Melee_Atk
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
