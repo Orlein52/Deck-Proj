@@ -9,6 +9,7 @@ TagManager:
   - Enem_Ranged_Atki
   - Enem_Melee_Atk
   - Platform
+  - Boss_Melee
   layers:
   - Default
   - TransparentFX

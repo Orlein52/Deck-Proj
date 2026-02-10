@@ -29,11 +29,17 @@ public class Player : MonoBehaviour
     bool d;
     RaycastHit2D upPlatRay;
     RaycastHit2D downPlatRay;
-    [Header("Attacks")]
+    public bool melee;
+    public float cool;
+    [Header("Melee")]
     public GameObject hitBox;
-    public float hitDur;
     bool attacked;
     public float damage;
+    [Header("Ranged")]
+    public GameObject proj;
+    public float projLife;
+    public float dmg;
+    public float projSpeed;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -136,17 +142,39 @@ public class Player : MonoBehaviour
     }
     public void Attack(InputAction.CallbackContext context)
     {
-        if (left && !attacked)
+        if (melee)
         {
-            GameObject a = Instantiate(hitBox, (transform.position + Vector3.left), transform.rotation, transform);
-            StartCoroutine("AtkCool");
-            Destroy(a, hitDur);
+            if (left && !attacked)
+            {
+                GameObject a = Instantiate(hitBox, (transform.position + Vector3.left), transform.rotation, transform);
+                StartCoroutine("AtkCool");
+                Destroy(a, cool);
+            }
+            else if (right && !attacked)
+            {
+                GameObject a = Instantiate(hitBox, (transform.position - Vector3.left), transform.rotation, transform);
+                StartCoroutine("AtkCool");
+                Destroy(a, cool);
+            }
         }
-        else if (right && !attacked) 
+        else if (!melee)
         {
-            GameObject a =  Instantiate(hitBox, (transform.position - Vector3.left), transform.rotation, transform);
-            StartCoroutine("AtkCool");
-            Destroy(a, hitDur);
+            if (left && !attacked)
+            {
+                GameObject a = Instantiate(proj, (transform.position + Vector3.left), transform.rotation);
+                Rigidbody2D ar = a.GetComponent<Rigidbody2D>();
+                ar.linearVelocityX = -projSpeed;
+                StartCoroutine("AtkCool");
+                Destroy(a, projLife);
+            }
+            else if (right && !attacked)
+            {
+                GameObject a = Instantiate(proj, (transform.position - Vector3.left), transform.rotation);
+                Rigidbody2D ar = a.GetComponent<Rigidbody2D>();
+                ar.linearVelocityX = projSpeed;
+                StartCoroutine("AtkCool");
+                Destroy(a, projLife);
+            }
         }
     }
     IEnumerator JumpFix()
@@ -170,7 +198,7 @@ public class Player : MonoBehaviour
     IEnumerator AtkCool()
     {
         attacked = true;
-        yield return new WaitForSeconds(hitDur);
+        yield return new WaitForSeconds(cool);
         attacked = false;
     }
 
@@ -186,7 +214,11 @@ public class Player : MonoBehaviour
         }
         if (other.tag == "Enem_Melee_Atk")
         {
-            health--;
+            health -= other.gameObject.GetComponentInParent<Enemy>().dmg;
+        }
+        if (other.tag == "Boss_Melee")
+        {
+            health -= other.gameObject.GetComponentInParent<Boss>().dmg;
         }
     }
 }

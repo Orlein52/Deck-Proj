@@ -17,10 +17,14 @@ public class Boss : MonoBehaviour
     public GameObject meleeAtk;
     bool charging;
     public float chargeForce;
-    public GameObject chargeHit;
-    public int chargeDmg;
+    public GameObject chargeHitR;
+    public GameObject chargeHitL;
+    public float chargeDmg;
     bool c;
     GameObject a;
+    public float dmg;
+    float cd;
+    GameObject p;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -34,15 +38,15 @@ public class Boss : MonoBehaviour
         {
             if (!charging)
             {
-                if (!c)
+                if (!c && !cool)
                 {
                     StartCoroutine("Charging");
                 }
-                if (player.transform.position.x < transform.position.x && !cool && dis - 1.5f > range)
+                if (player.transform.position.x < transform.position.x && !cool && !meleeRay1.rigidbody)
                 {
                     rb.linearVelocityX = -speed;
                 }
-                else if (player.transform.position.x > transform.position.x && !cool && dis + 1.5f > range)
+                else if (player.transform.position.x > transform.position.x && !cool && !meleeRay2.rigidbody)
                 {
                     rb.linearVelocityX = speed;
                 }
@@ -51,13 +55,13 @@ public class Boss : MonoBehaviour
                 if (meleeRay1.rigidbody && !cool)
                 {
                     StartCoroutine("AtkCool");
-                    GameObject p = Instantiate(meleeAtk, transform.position - Vector3.right, transform.rotation, transform);
+                    p = Instantiate(meleeAtk, transform.position - Vector3.right, transform.rotation, transform);
                     Destroy(p, atkSpeed);
                 }
                 else if (meleeRay2.rigidbody && !cool)
                 {
                     StartCoroutine("AtkCool");
-                    GameObject p = Instantiate(meleeAtk, transform.position + Vector3.right, transform.rotation, transform);
+                    p = Instantiate(meleeAtk, transform.position + Vector3.right, transform.rotation, transform);
                     Destroy(p, atkSpeed);
                 }
             }
@@ -66,6 +70,7 @@ public class Boss : MonoBehaviour
         {
             charging = false;
             Destroy(a);
+            dmg = cd;
         }
         if (health <= 0)
         {
@@ -74,14 +79,17 @@ public class Boss : MonoBehaviour
     }
     public void Charge()
     {
+        cd = dmg;
+        dmg = chargeDmg;
+        Destroy(p);
         if (player.transform.position.x < transform.position.x)
         {
-            a = Instantiate(chargeHit, transform.position - Vector3.right / 1.9f, transform.rotation, transform);
+            a = Instantiate(chargeHitL, transform.position - Vector3.right / 1.9f, transform.rotation, transform);
             rb.AddForceX(-chargeForce, ForceMode2D.Impulse);
         }
         else if (player.transform.position.x > transform.position.x)
         {
-            a = Instantiate(chargeHit, transform.position + Vector3.right / 1.9f, transform.rotation, transform);
+            a = Instantiate(chargeHitR, transform.position + Vector3.right / 1.9f, transform.rotation, transform);
             rb.AddForceX(chargeForce, ForceMode2D.Impulse);
         }
         //charging = false;
@@ -89,18 +97,16 @@ public class Boss : MonoBehaviour
     IEnumerator AtkCool()
     {
         cool = true;
-        yield return new WaitForSeconds(atkSpeed);
+        yield return new WaitForSeconds(atkSpeed + 0.2f);
         cool = false;
     }
     IEnumerator Charging()
     {
         c = true;
         float a = Random.Range(1, 5);
-        yield return new WaitForSeconds(a);
         charging = true;
         Charge();
-        yield return new WaitForSeconds(1);
-        charging = false;
+        yield return new WaitForSeconds(a);
         c = false;
     }
     public void OnTriggerEnter2D(Collider2D other)

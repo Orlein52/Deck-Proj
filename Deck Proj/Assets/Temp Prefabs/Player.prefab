@@ -180,16 +180,21 @@ MonoBehaviour:
   speed: 5
   inputX: 0
   inputY: 0
-  health: 0
-  maxHealth: 0
-  jumpDis: 0
+  health: 10
+  maxHealth: 10
+  jumpRayDis: 0
   jumpForce: 10
   grounded: 0
   jumped: 0
   cTime: 0.1
+  melee: 0
+  cool: 0
   hitBox: {fileID: 6426449648317936281, guid: 86567dd2cd95830489e33e7cb7ef8e40, type: 3}
-  hitDur: 0.5
   damage: 5
+  proj: {fileID: 7293081133402721758, guid: 5c6e0a8862b362c469d61c902f982611, type: 3}
+  projLife: 0
+  dmg: 0
+  projSpeed: 0
 --- !u!114 &8113855262808785697
 MonoBehaviour:
   m_ObjectHideFlags: 0
