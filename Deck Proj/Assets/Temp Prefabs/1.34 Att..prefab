@@ -13,6 +13,10 @@ PrefabInstance:
       value: 1.34
       objectReference: {fileID: 0}
     - target: {fileID: 3009958900335005331, guid: 86567dd2cd95830489e33e7cb7ef8e40, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009958900335005331, guid: 86567dd2cd95830489e33e7cb7ef8e40, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.08186
       objectReference: {fileID: 0}
@@ -54,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6426449648317936281, guid: 86567dd2cd95830489e33e7cb7ef8e40, type: 3}
       propertyPath: m_Name
-      value: Attack Variant
+      value: 1.34 Att.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
