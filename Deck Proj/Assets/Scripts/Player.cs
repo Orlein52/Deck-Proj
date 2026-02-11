@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     public float hitDur;
     bool attacked;
     public float damage;
+    Animator anim;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
         jumpRay = new Ray2D(transform.position - (Vector3.down/2), Vector2.down);
         right = true;
         col = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -49,10 +51,11 @@ public class Player : MonoBehaviour
         tempmove = rb.linearVelocity;
         tempmove.x = inputX * speed;
         rb.linearVelocityX = tempmove.x;
-        jumpRay.origin = transform.position + ((Vector3.down / 2) + (Vector3.down / 10));
+        jumpRay.origin = transform.position + (Vector3.down/1.5f);
         if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpRayDis) && !grounded && !a)
         {
             grounded = true;
+            anim.SetBool("Falling", false);
         }
         if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpRayDis))
         {
@@ -61,6 +64,10 @@ public class Player : MonoBehaviour
         if (!Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpRayDis) && grounded)
         {
             StartCoroutine("coyote");
+        }
+        if (!grounded && !a)
+        {
+            anim.SetBool("Falling", true);
         }
         if (!grounded)
         {
@@ -77,8 +84,8 @@ public class Player : MonoBehaviour
                 rb.gravityScale = 2;
             }
         }
-        upPlatRay = Physics2D.Raycast(transform.position + (Vector3.up / 1.9999f), Vector2.up);
-        downPlatRay = Physics2D.Raycast(transform.position - (Vector3.up / 1.9999f), Vector2.down);
+        upPlatRay = Physics2D.Raycast(transform.position - (Vector3.down / 1.5f), Vector2.up);
+        downPlatRay = Physics2D.Raycast(transform.position + (Vector3.down / 1.5f), Vector2.down);
         if (downPlatRay.collider)
         {
             if (inputY < 0 && downPlatRay.collider.gameObject.tag == "Platform")
@@ -104,6 +111,12 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+        if (inputX == 0)
+        {
+            anim.SetBool("WalkL", false);
+            anim.SetBool("WalkR", false);
+        }
+        
     }
     public void Move(InputAction.CallbackContext context)
     {
@@ -113,11 +126,13 @@ public class Player : MonoBehaviour
         if (inputX < 0)
         {
             left = true;
+            anim.SetBool("WalkL", true);
             right = false;
         }
         else if (inputX > 0)
         {
             right = true;
+            anim.SetBool("WalkR", true);
             left = false;
         }
     }
@@ -130,6 +145,7 @@ public class Player : MonoBehaviour
                 jumped = true;
                 grounded = false;
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                anim.SetBool("Jump", true);
                 StartCoroutine("JumpFix");
             }
         }
@@ -152,8 +168,9 @@ public class Player : MonoBehaviour
     IEnumerator JumpFix()
     {
         a = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         a = false;
+        anim.SetBool("Jump", false);
     }
     IEnumerator coyote()
     {
@@ -161,6 +178,7 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(cTime);
             grounded = false;
+            anim.SetBool("Falling", true);
         }
         else
         {
@@ -178,7 +196,7 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "KillBox")
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         if (other.tag == "Enem_Ranged_Atki")
         {
