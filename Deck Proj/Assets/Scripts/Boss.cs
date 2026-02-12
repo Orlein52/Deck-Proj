@@ -21,15 +21,37 @@ public class Boss : MonoBehaviour
     public int chargeDmg;
     bool c;
     GameObject a;
+    public GameObject test;
+    //float u;
+    public GameObject m;
+    Vector3 pos;
+    Vector3 pos2;
+    bool maybe;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
+        m = Instantiate(test, transform.position, transform.rotation);
+        pos = transform.position;
+        pos2 = player.transform.position;
+        charging = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!maybe)
+        {
+            float u = (pos.x + m.transform.position.x) * (pos2.x + m.transform.position.x);
+            m.transform.position += Vector3.up * u;
+            m.transform.position -= Vector3.right;
+            StartCoroutine("Perhaps");
+        }
+        if (m.transform.position.y <0)
+        {
+            Debug.Log(m.transform.position.x);
+            Destroy(m);
+        }
         if (dis <= detectDis)
         {
             if (!charging)
@@ -64,7 +86,7 @@ public class Boss : MonoBehaviour
         }
         if (-5 < rb.linearVelocityX && rb.linearVelocityX < 5)
         {
-            charging = false;
+            //charging = false;
             Destroy(a);
         }
         if (health <= 0)
@@ -102,6 +124,12 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(1);
         charging = false;
         c = false;
+    }
+    IEnumerator Perhaps()
+    {
+        maybe = true;
+        yield return new WaitForSeconds(1);
+        maybe = false;
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
