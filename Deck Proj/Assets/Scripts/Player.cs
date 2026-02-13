@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                rb.gravityScale = 2;
+                rb.gravityScale = 0;
             }
         }
         upPlatRay = Physics2D.Raycast(transform.position - (Vector3.down / 1.5f), Vector2.up);
