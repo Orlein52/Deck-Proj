@@ -31,7 +31,7 @@ public class Boss : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
-        m = Instantiate(test, transform.position, transform.rotation);
+        m = Instantiate(test, transform.position + (5 * Vector3.right), transform.rotation);
         pos = transform.position;
         pos2 = player.transform.position;
         charging = true;
@@ -42,12 +42,13 @@ public class Boss : MonoBehaviour
     {
         if (!maybe)
         {
-            float u = (pos.x + m.transform.position.x) * (pos2.x + m.transform.position.x);
+            float u = (-pos.x + m.transform.position.x) * (pos2.x - m.transform.position.x);
             m.transform.position += Vector3.up * u;
             m.transform.position -= Vector3.right;
-            StartCoroutine("Perhaps");
+            Debug.Log(m.transform.position.x + " , " + m.transform.position.y);
+            //StartCoroutine("Perhaps");
         }
-        if (m.transform.position.y <0)
+        if (m.transform.position.y  < -1000)
         {
             Debug.Log(m.transform.position.x);
             Destroy(m);
