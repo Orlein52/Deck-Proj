@@ -22,11 +22,13 @@ public class Boss : MonoBehaviour
     bool c;
     GameObject a;
     public GameObject test;
-    //float u;
     public GameObject m;
     Vector3 pos;
     Vector3 pos2;
     bool maybe;
+    float t;
+    float attackNum;
+    
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -34,7 +36,6 @@ public class Boss : MonoBehaviour
         m = Instantiate(test, transform.position + (5 * Vector3.right), transform.rotation);
         pos = transform.position;
         pos2 = player.transform.position;
-        charging = true;
     }
 
     // Update is called once per frame
@@ -42,14 +43,14 @@ public class Boss : MonoBehaviour
     {
         if (!maybe)
         {
-            float u = (-pos.x + m.transform.position.x) * (pos2.x - m.transform.position.x);
-            m.transform.position += Vector3.up * u;
-            m.transform.position -= Vector3.right;
+            m.transform.position = SampleParabola(pos, pos2, 5, t, Vector3.up);
             Debug.Log(m.transform.position.x + " , " + m.transform.position.y);
+            t += 0.001f;
             //StartCoroutine("Perhaps");
         }
-        if (m.transform.position.y  < -1000)
+        if (!maybe && m.transform.position.y  < -10)
         {
+            maybe = true;
             Debug.Log(m.transform.position.x);
             Destroy(m);
         }
@@ -57,7 +58,7 @@ public class Boss : MonoBehaviour
         {
             if (!charging)
             {
-                if (!c)
+                if (!c && attackNum < 2)
                 {
                     StartCoroutine("Charging");
                 }
@@ -124,13 +125,8 @@ public class Boss : MonoBehaviour
         Charge();
         yield return new WaitForSeconds(1);
         charging = false;
+        attackNum = Random.Range(1, 3);        
         c = false;
-    }
-    IEnumerator Perhaps()
-    {
-        maybe = true;
-        yield return new WaitForSeconds(1);
-        maybe = false;
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
@@ -138,5 +134,17 @@ public class Boss : MonoBehaviour
         {
             health -= player.GetComponent<Player>().damage;
         }
+    }
+    Vector3 SampleParabola(Vector3 start, Vector3 end, float height, float t, Vector3 outDirection)
+    {
+        float parabolicT = t * 2 - 1;
+        //start and end are not level, gets more complicated
+        Vector3 travelDirection = end - start;
+        Vector3 levelDirection = end - new Vector3(start.x, end.y, start.z);
+        Vector3 right = Vector3.Cross(travelDirection, levelDirection);
+        Vector3 up = outDirection;
+        Vector3 result = start + t * travelDirection;
+        result += ((-parabolicT * parabolicT + 1) * height) * up.normalized;
+        return result;
     }
 }
