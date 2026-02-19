@@ -21,41 +21,61 @@ public class Boss : MonoBehaviour
     public int chargeDmg;
     bool c;
     GameObject a;
-    public GameObject test;
+    public GameObject lobProj;
     public GameObject m;
     Vector3 pos;
     Vector3 pos2;
     bool maybe;
     float t;
     float attackNum;
-    
+    bool lob;
+    public float lobRangeFar;
+    public float lobRangeClose;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
-        m = Instantiate(test, transform.position + (5 * Vector3.right), transform.rotation);
-        pos = transform.position;
-        pos2 = player.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!maybe)
+        if (lob)
         {
             m.transform.position = SampleParabola(pos, pos2, 5, t, Vector3.up);
-            Debug.Log(m.transform.position.x + " , " + m.transform.position.y);
             t += 0.001f;
-            //StartCoroutine("Perhaps");
         }
-        if (!maybe && m.transform.position.y  < -10)
+        if (lob && t > 1)
         {
-            maybe = true;
-            Debug.Log(m.transform.position.x);
             Destroy(m);
+            lob = false;
+            t = 0;
         }
         if (dis <= detectDis)
         {
+            if (attackNum >= 2 && !c)
+            {
+                if (player.transform.position.x < transform.position.x && !cool && dis >= lobRangeFar)
+                {
+                    rb.linearVelocityX = -speed;
+                }
+                else if (player.transform.position.x > transform.position.x && !cool && dis >= lobRangeFar)
+                {
+                    rb.linearVelocityX = speed;
+                }
+                else if (player.transform.position.x < transform.position.x && !cool && dis <= lobRangeClose)
+                {
+                    rb.linearVelocityX = speed;
+                }
+                else if (player.transform.position.x > transform.position.x && !cool && dis <= lobRangeClose)
+                {
+                    rb.linearVelocityX = -speed;
+                }
+                else
+                {
+                    StartCoroutine("Lobbing");
+                }
+            }
             if (!charging)
             {
                 if (!c && attackNum < 2)
@@ -110,6 +130,14 @@ public class Boss : MonoBehaviour
         }
         //charging = false;
     }
+    public void Lob(Vector3 target)
+    {
+        pos = transform.position;
+        pos2 = target;
+        rb.linearVelocityX = 0;
+        m = Instantiate(lobProj, transform.position, transform.rotation);
+        lob = true;
+    }
     IEnumerator AtkCool()
     {
         cool = true;
@@ -126,6 +154,15 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(1);
         charging = false;
         attackNum = Random.Range(1, 3);        
+        c = false;
+    }
+    IEnumerator Lobbing()
+    {
+        c = true;
+        Lob(player.transform.position);
+        float a = Random.Range(1, 5);
+        yield return new WaitForSeconds(a);
+        attackNum = Random.Range(1, 3);
         c = false;
     }
     public void OnTriggerEnter2D(Collider2D other)
