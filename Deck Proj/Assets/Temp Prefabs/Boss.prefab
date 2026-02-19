@@ -185,3 +185,7 @@ MonoBehaviour:
   chargeForce: 100
   chargeHit: {fileID: 7153345850059306303, guid: 51eadd63e79c9b842b59fbd0be0ccdc5, type: 3}
   chargeDmg: 0
+  lobProj: {fileID: 8261526321508574350, guid: 02fd371c4876fe7408b68b6eebb55100, type: 3}
+  m: {fileID: 0}
+  lobRangeFar: 10
+  lobRangeClose: 0

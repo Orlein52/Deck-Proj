@@ -43,7 +43,7 @@ public class Boss : MonoBehaviour
         if (lob)
         {
             m.transform.position = SampleParabola(pos, pos2, 5, t, Vector3.up);
-            t += 0.001f;
+            t += 0.005f;
         }
         if (lob && t > 1)
         {
@@ -135,6 +135,11 @@ public class Boss : MonoBehaviour
         pos = transform.position;
         pos2 = target;
         rb.linearVelocityX = 0;
+        if (lob)
+        {
+            Destroy(m);
+            t = 0;
+        }
         m = Instantiate(lobProj, transform.position, transform.rotation);
         lob = true;
     }
