@@ -7,7 +7,7 @@ public class Boss : MonoBehaviour
     RaycastHit2D meleeRay2;
     bool cool;
     public float atkSpeed;
-    float dis;
+    public float dis;
     public float detectDis;
     Rigidbody2D rb;
     public float speed;
@@ -31,6 +31,8 @@ public class Boss : MonoBehaviour
     bool lob;
     public float lobRangeFar;
     public float lobRangeClose;
+    public float projSpeed;
+    public float fireSpeed;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -40,10 +42,11 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        dis = Vector3.Distance(transform.position, player.transform.position);
         if (lob)
         {
             m.transform.position = SampleParabola(pos, pos2, 5, t, Vector3.up);
-            t += 0.005f;
+            t += 0.002f;
         }
         if (lob && t > 1)
         {
@@ -53,32 +56,40 @@ public class Boss : MonoBehaviour
         }
         if (dis <= detectDis)
         {
-            if (attackNum >= 2 && !c)
+            if (attackNum >= 2)
             {
-                if (player.transform.position.x < transform.position.x && !cool && dis >= lobRangeFar)
+                if (player.transform.position.x < transform.position.x && !cool && dis >= lobRangeFar || player.transform.position.x > transform.position.x && !cool && dis <= lobRangeClose)
                 {
                     rb.linearVelocityX = -speed;
                 }
-                else if (player.transform.position.x > transform.position.x && !cool && dis >= lobRangeFar)
+                else if (player.transform.position.x > transform.position.x && !cool && dis >= lobRangeFar || player.transform.position.x < transform.position.x && !cool && dis <= lobRangeClose)
                 {
                     rb.linearVelocityX = speed;
                 }
-                else if (player.transform.position.x < transform.position.x && !cool && dis <= lobRangeClose)
-                {
-                    rb.linearVelocityX = speed;
-                }
-                else if (player.transform.position.x > transform.position.x && !cool && dis <= lobRangeClose)
-                {
-                    rb.linearVelocityX = -speed;
-                }
-                else
+                else if (dis >= lobRangeClose && !c)
                 {
                     StartCoroutine("Lobbing");
                 }
+                if (player.transform.position.x < transform.position.x && !cool && !lob)
+                {
+                    StartCoroutine("AtkCool");
+                    GameObject p = Instantiate(lobProj, transform.position, transform.rotation);
+                    Rigidbody2D pr = p.GetComponent<Rigidbody2D>();
+                    pr.linearVelocityX = -projSpeed;
+                    Destroy(p, fireSpeed);
+                }
+                else if (!cool && player.transform.position.x > transform.position.x && !lob)
+                {
+                    StartCoroutine("AtkCool");
+                    GameObject p = Instantiate(lobProj, transform.position, transform.rotation);
+                    Rigidbody2D pr = p.GetComponent<Rigidbody2D>();
+                    pr.linearVelocityX = projSpeed;
+                    Destroy(p, fireSpeed);
+                }
             }
-            if (!charging)
+            if (!charging && attackNum < 2)
             {
-                if (!c && attackNum < 2)
+                if (!c)
                 {
                     StartCoroutine("Charging");
                 }
