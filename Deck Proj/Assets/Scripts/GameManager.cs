@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public int enNum;
     bool e;
     GameObject[] enemies;
+    Player player;
     void Start()
     {
         if(GameObject.FindGameObjectWithTag("Manager") != gameObject)
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
             e = false;
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
             enNum = enemies.Length - 1;
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
     }
     public void Level1Enter()
