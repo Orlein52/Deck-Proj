@@ -29,16 +29,19 @@ public class Enemy : MonoBehaviour
     RaycastHit2D meleeRay2;
     bool cool;
     public float atkSpeed;
+    GameManager manager;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
+        manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
     }
     void Update()
     {
         dis = Vector3.Distance(player.transform.position, transform.position);
         if (health <= 0)
         {
+            manager.EnDeath();
             Destroy(gameObject);
         }
         if (dis <= detectDis)
@@ -46,8 +49,8 @@ public class Enemy : MonoBehaviour
             //Atk code
             if (ranged)
             {
-                fireRay2 = Physics2D.Raycast(transform.position + (Vector3.right/2), transform.right, fireRange);
-                fireRay1 = Physics2D.Raycast(transform.position - (Vector3.right/2), -transform.right, fireRange);
+                fireRay2 = Physics2D.Raycast(transform.position + (Vector3.right/1.999f), transform.right, fireRange);
+                fireRay1 = Physics2D.Raycast(transform.position - (Vector3.right/1.999f), -transform.right, fireRange);
                 if (fireRay1.rigidbody && !fired)
                 {
                     StartCoroutine("FireCool");
