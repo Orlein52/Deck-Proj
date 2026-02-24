@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 1
   atkSpeed: 0.5
+  dis: 0
   detectDis: 10
   speed: 1
   health: 1
@@ -184,8 +185,10 @@ MonoBehaviour:
   meleeAtk: {fileID: 643408677948521276, guid: 20160295dca95df42aab3116e8eb8e8f, type: 3}
   chargeForce: 100
   chargeHit: {fileID: 7153345850059306303, guid: 51eadd63e79c9b842b59fbd0be0ccdc5, type: 3}
-  chargeDmg: 0
+  chargeDmg: 10
   lobProj: {fileID: 8261526321508574350, guid: 02fd371c4876fe7408b68b6eebb55100, type: 3}
   m: {fileID: 0}
   lobRangeFar: 10
   lobRangeClose: 0
+  projSpeed: 5
+  fireSpeed: 0.5
