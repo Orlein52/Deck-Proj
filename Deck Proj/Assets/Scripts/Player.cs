@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     BoxCollider2D col;
     public float health;
     public float maxHealth;
+    GameManager manager;
     [Header("Jump Stats")]
     public float jumpRayDis;
     public float jumpForce;
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
         right = true;
         col = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
+        manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -109,7 +111,7 @@ public class Player : MonoBehaviour
         }
         if (health <= 0)
         {
-            SceneManager.LoadScene(1);
+            manager.End();
         }
         if (inputX == 0)
         {
