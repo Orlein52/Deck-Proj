@@ -600,10 +600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aaf7268641f88c4392f5a961e953f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 802240416558153406, guid: 57df3b784842f8843b0d954549dc9872, type: 3}
-  - {fileID: 123133188811889803, guid: 28ff2dd6821030b4d93cb8171f2293bf, type: 3}
-  - {fileID: 1572597731473451426, guid: dab4f5033bf246645bb7d8fa4cc6d399, type: 3}
+  levelNum: 0
+  enNum: 0
 --- !u!4 &1172484081
 Transform:
   m_ObjectHideFlags: 0
