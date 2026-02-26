@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     }
     public void Level1Enter()
     {
-        levelNum = UnityEngine.Random.Range(4, 6);
+        levelNum = UnityEngine.Random.Range(5, 7);
         SceneManager.LoadScene(levelNum);
         StartCoroutine("En");
         levelNum = 1;
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     }
     public void Level3Enter()
     {
-        levelNum = UnityEngine.Random.Range(3, 3);
+        levelNum = UnityEngine.Random.Range(3, 5);
         SceneManager.LoadScene(levelNum);
         StartCoroutine("En");
         levelNum = 3;
@@ -67,11 +67,11 @@ public class GameManager : MonoBehaviour
     {
         if (player.health <= 0)
         {
-            SceneManager.LoadScene(6);
+            SceneManager.LoadScene(7);
         }
         else if (player.health > 0)
         {
-            SceneManager.LoadScene(6);
+            SceneManager.LoadScene(7);
             StartCoroutine("Ends");
         }
     }
