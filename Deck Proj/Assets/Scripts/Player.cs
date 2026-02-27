@@ -158,12 +158,14 @@ public class Player : MonoBehaviour
         {
             GameObject a = Instantiate(hitBox, (transform.position + Vector3.left), transform.rotation, transform);
             StartCoroutine("AtkCool");
+            anim.SetBool("AtkL", true);
             Destroy(a, hitDur);
         }
         else if (right && !attacked) 
         {
             GameObject a =  Instantiate(hitBox, (transform.position - Vector3.left), transform.rotation, transform);
             StartCoroutine("AtkCool");
+            anim.SetBool("AtkR", true);
             Destroy(a, hitDur);
         }
     }
@@ -191,6 +193,8 @@ public class Player : MonoBehaviour
     {
         attacked = true;
         yield return new WaitForSeconds(hitDur);
+        anim.SetBool("AtkL", false);
+        anim.SetBool("AtkR", false);
         attacked = false;
     }
 

@@ -145,9 +145,9 @@ Transform:
   m_GameObject: {fileID: 2130542611}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.042, y: -0.0659, z: 10}
-  m_LocalScale: {x: 1.16095, y: 1.202625, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0.5, z: 200}
+  m_LocalScale: {x: 1.75, y: 1.75, z: 1.75}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7277082696745632681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -214,6 +214,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 254009957233573948, guid: 47cc5f158a54b0d409b07c841e063c5e, type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 254009957233573948, guid: 47cc5f158a54b0d409b07c841e063c5e, type: 3}
+      propertyPath: far clip plane
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 254009957233573948, guid: 47cc5f158a54b0d409b07c841e063c5e, type: 3}
+      propertyPath: near clip plane
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333127107515152929, guid: 47cc5f158a54b0d409b07c841e063c5e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3095428435223593983, guid: 47cc5f158a54b0d409b07c841e063c5e, type: 3}
       propertyPath: m_Name
       value: Liam 2
