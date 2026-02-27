@@ -75,6 +75,10 @@ public class GameManager : MonoBehaviour
             StartCoroutine("Ends");
         }
     }
+    public void Quit()
+    {
+        Application.Quit();
+    }
     IEnumerator En()
     {
         yield return new WaitForSeconds(1);
