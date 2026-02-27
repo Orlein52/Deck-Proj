@@ -131,6 +131,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zeke 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5302892771300365094, guid: dab4f5033bf246645bb7d8fa4cc6d399, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302892771300365094, guid: dab4f5033bf246645bb7d8fa4cc6d399, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302892771300365094, guid: dab4f5033bf246645bb7d8fa4cc6d399, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302892771300365094, guid: dab4f5033bf246645bb7d8fa4cc6d399, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302892771300365094, guid: dab4f5033bf246645bb7d8fa4cc6d399, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7839416537215217223, guid: dab4f5033bf246645bb7d8fa4cc6d399, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.75735
